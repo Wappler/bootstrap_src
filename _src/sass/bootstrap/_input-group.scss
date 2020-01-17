@@ -12,46 +12,48 @@
   width: 100%;
 
   > .form-control,
-  > .form-select,
-  > .form-file {
+  > .form-control-plaintext,
+  > .custom-select,
+  > .custom-file {
     position: relative; // For focus state's z-index
     flex: 1 1 0%;
     min-width: 0; // https://stackoverflow.com/questions/36247140/why-dont-flex-items-shrink-past-content-size
     margin-bottom: 0;
 
     + .form-control,
-    + .form-select,
-    + .form-file {
+    + .custom-select,
+    + .custom-file {
       margin-left: -$input-border-width;
     }
   }
 
   // Bring the "active" form control to the top of surrounding elements
   > .form-control:focus,
-  > .form-select:focus,
-  > .form-file .form-file-input:focus ~ .form-file-label {
+  > .custom-select:focus,
+  > .custom-file .custom-file-input:focus ~ .custom-file-label {
     z-index: 3;
   }
 
   // Bring the custom file input above the label
-  > .form-file .form-file-input:focus {
+  > .custom-file .custom-file-input:focus {
     z-index: 4;
   }
 
   > .form-control,
-  > .form-select {
+  > .custom-select {
     &:not(:last-child) { @include border-right-radius(0); }
     &:not(:first-child) { @include border-left-radius(0); }
   }
 
   // Custom file inputs have more complex markup, thus requiring different
   // border-radius overrides.
-  > .form-file {
+  > .custom-file {
     display: flex;
     align-items: center;
 
-    &:not(:last-child) .form-file-label { @include border-right-radius(0); }
-    &:not(:first-child) .form-file-label { @include border-left-radius(0); }
+    &:not(:last-child) .custom-file-label,
+    &:not(:last-child) .custom-file-label::after { @include border-right-radius(0); }
+    &:not(:first-child) .custom-file-label { @include border-left-radius(0); }
   }
 }
 
@@ -123,47 +125,43 @@
 // Remix the default form control sizing classes into new ones for easier
 // manipulation.
 
-.input-group-lg > .form-control {
-  min-height: $input-height-lg;
-}
-
-.input-group-lg > .form-select {
+.input-group-lg > .form-control:not(textarea),
+.input-group-lg > .custom-select {
   height: $input-height-lg;
 }
 
 .input-group-lg > .form-control,
-.input-group-lg > .form-select,
+.input-group-lg > .custom-select,
 .input-group-lg > .input-group-prepend > .input-group-text,
 .input-group-lg > .input-group-append > .input-group-text,
 .input-group-lg > .input-group-prepend > .btn,
 .input-group-lg > .input-group-append > .btn {
   padding: $input-padding-y-lg $input-padding-x-lg;
   @include font-size($input-font-size-lg);
+  line-height: $input-line-height-lg;
   @include border-radius($input-border-radius-lg);
 }
 
-.input-group-sm > .form-control {
-  min-height: $input-height-sm;
-}
-
-.input-group-sm > .form-select {
+.input-group-sm > .form-control:not(textarea),
+.input-group-sm > .custom-select {
   height: $input-height-sm;
 }
 
 .input-group-sm > .form-control,
-.input-group-sm > .form-select,
+.input-group-sm > .custom-select,
 .input-group-sm > .input-group-prepend > .input-group-text,
 .input-group-sm > .input-group-append > .input-group-text,
 .input-group-sm > .input-group-prepend > .btn,
 .input-group-sm > .input-group-append > .btn {
   padding: $input-padding-y-sm $input-padding-x-sm;
   @include font-size($input-font-size-sm);
+  line-height: $input-line-height-sm;
   @include border-radius($input-border-radius-sm);
 }
 
-.input-group-lg > .form-select,
-.input-group-sm > .form-select {
-  padding-right: $form-select-padding-x + $form-select-indicator-padding;
+.input-group-lg > .custom-select,
+.input-group-sm > .custom-select {
+  padding-right: $custom-select-padding-x + $custom-select-indicator-padding;
 }
 
 

@@ -23,7 +23,7 @@
       box-shadow: $input-focus-box-shadow;
     }
   }
-  @include deprecate("The `form-control-focus()` mixin", "v4.3.2", "v5", $ignore-warning);
+  @include deprecate("The `form-control-focus()` mixin", "v4.4.0", "v5", $ignore-warning);
 }
 
 // This mixin uses an `if()` technique to be compatible with Dart Sass
@@ -101,13 +101,13 @@
     }
   }
 
-  .form-select {
+  .custom-select {
     @include form-validation-state-selector($state) {
       border-color: $color;
 
       @if $enable-validation-icons {
-        padding-right: $form-select-feedback-icon-padding-right;
-        background: escape-svg($form-select-indicator) $form-select-background, escape-svg($icon) $form-select-bg no-repeat $form-select-feedback-icon-position / $form-select-feedback-icon-size;
+        padding-right: $custom-select-feedback-icon-padding-right;
+        background: $custom-select-background, escape-svg($icon) $custom-select-bg no-repeat $custom-select-feedback-icon-position / $custom-select-feedback-icon-size;
       }
 
       &:focus {
@@ -119,36 +119,55 @@
 
   .form-check-input {
     @include form-validation-state-selector($state) {
-      border-color: $color;
-
-      &:checked {
-        @include gradient-bg(lighten($color, 10%), escape-svg($form-check-input-checked-bg-image));
-      }
-
-      &:focus {
-        box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
-      }
-
       ~ .form-check-label {
         color: $color;
       }
+
+      ~ .#{$state}-feedback,
+      ~ .#{$state}-tooltip {
+        display: block;
+      }
     }
   }
-  .form-check-inline .form-check-input {
-    ~ .#{$state}-feedback {
-      margin-left: .5em;
+
+  .custom-control-input {
+    @include form-validation-state-selector($state) {
+      ~ .custom-control-label {
+        color: $color;
+
+        &::before {
+          border-color: $color;
+        }
+      }
+
+      &:checked {
+        ~ .custom-control-label::before {
+          border-color: lighten($color, 10%);
+          @include gradient-bg(lighten($color, 10%));
+        }
+      }
+
+      &:focus {
+        ~ .custom-control-label::before {
+          box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
+        }
+
+        &:not(:checked) ~ .custom-control-label::before {
+          border-color: $color;
+        }
+      }
     }
   }
 
   // custom file
-  .form-file-input {
+  .custom-file-input {
     @include form-validation-state-selector($state) {
-      ~ .form-file-label {
+      ~ .custom-file-label {
         border-color: $color;
       }
 
       &:focus {
-        ~ .form-file-label {
+        ~ .custom-file-label {
           border-color: $color;
           box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
         }

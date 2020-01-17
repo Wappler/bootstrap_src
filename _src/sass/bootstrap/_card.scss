@@ -57,7 +57,7 @@
 }
 
 .card-link {
-  &:hover {
+  @include hover() {
     text-decoration: none;
   }
 
@@ -108,13 +108,6 @@
   margin-bottom: -$card-spacer-y;
   margin-left: -$card-spacer-x / 2;
   border-bottom: 0;
-
-  @if $nav-tabs-link-active-bg != $card-bg {
-    .nav-link.active {
-      background-color: $card-bg;
-      border-bottom-color: $card-bg;
-    }
-  }
 }
 
 .card-header-pills {
@@ -232,6 +225,29 @@
           }
         }
       }
+    }
+  }
+}
+
+
+//
+// Columns
+//
+
+.card-columns {
+  .card {
+    margin-bottom: $card-columns-margin;
+  }
+
+  @include media-breakpoint-up(sm) {
+    column-count: $card-columns-count;
+    column-gap: $card-columns-gap;
+    orphans: 1;
+    widows: 1;
+
+    .card {
+      display: inline-block; // Don't let them vertically span multiple columns
+      width: 100%; // Don't let their width change
     }
   }
 }
